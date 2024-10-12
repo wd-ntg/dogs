@@ -13,6 +13,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 
 // router
 import initRouterUser from "./src/routes/user.js";
+import initRouterSearch from "./src/routes/search.js";
 
 const app = express();
 
@@ -79,3 +80,4 @@ function setupPassport(db) {
 
 // Initialize routes
 initRouterUser(app);
+initRouterSearch(app);

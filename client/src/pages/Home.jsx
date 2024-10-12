@@ -10,10 +10,11 @@ import { ProductCard } from "../components/ProductCard";
 import { BlogPost } from "../components/BlogPost";
 import Banner from "../components/Banner";
 
-import Dog4 from '../assets/dog4.jpg';
-import Category1 from '../assets/category_1.jpg'
+import Dog4 from "../assets/dog4.jpg";
+import Category1 from "../assets/category_1.jpg";
 import Dog5 from "../assets/dog5.jpg";
 import Dog1 from "../assets/dog1.jpg";
+import ImageUpload from "@/components/cloud/UploadCloudinary";
 
 const products = [
   {
@@ -55,22 +56,39 @@ function Home() {
       <div className="relative grid">
         <img src={big_img1} />
         <div className="absolute top-[20%] left-8">
-          <div className="text-3xl six-caps-font sm:flex hidden">KẾT NỐI BẠN VỚI </div>
-          <div className="text-3xl six-caps-font sm:flex hidden my-6">NHỮNG NGƯỜI BẠN</div>
-          <div className="text-3xl six-caps-font sm:flex hidden">BỐN CHÂN HOÀN HẢO</div>
-          <div className="text-[120px]  six-caps-font-2  my-2 sm:flex hidden">THIS LOVE</div>
+          <div className="text-3xl six-caps-font sm:flex hidden">
+            KẾT NỐI BẠN VỚI{" "}
+          </div>
+          <div className="text-3xl six-caps-font sm:flex hidden my-6">
+            NHỮNG NGƯỜI BẠN
+          </div>
+          <div className="text-3xl six-caps-font sm:flex hidden">
+            BỐN CHÂN HOÀN HẢO
+          </div>
+          <div className="text-[120px]  six-caps-font-2  my-2 sm:flex hidden">
+            THIS LOVE
+          </div>
         </div>
       </div>
 
       <div className="flex mx-24 my-16">
         <div>
-          <img src={banner1} className="hover:brightness-110 cursor-pointer duration-200" />
+          <img
+            src={banner1}
+            className="hover:brightness-110 cursor-pointer duration-200"
+          />
         </div>
         <div>
-          <img src={banner2} className="hover:brightness-110 cursor-pointer duration-200" />
+          <img
+            src={banner2}
+            className="hover:brightness-110 cursor-pointer duration-200"
+          />
         </div>
         <div>
-          <img src={banner3} className="hover:brightness-110 cursor-pointer duration-200" />
+          <img
+            src={banner3}
+            className="hover:brightness-110 cursor-pointer duration-200"
+          />
         </div>
       </div>
 
@@ -157,53 +175,64 @@ function Home() {
       </div>
 
       <div>
-      <div className="container mx-auto">
-                <h1 className="text-3xl font-bold text-center text-green-600 my-8">SEE WHAT’S NEW IN OUR BLOG</h1>
-                <div className="flex justify-center">
-                    <div className="text-center mx-4">
-                        <p className="text-green-600 font-bold">DECEMBER 22</p>
-                        <p className="text-gray-600">Posted by <span className="text-black">admin</span> • 3 Comments</p>
-                    </div>
-                    <div className="text-center mx-4">
-                        <p className="text-green-600 font-bold">DECEMBER 22</p>
-                        <p className="text-gray-600">Posted by <span className="text-black">admin</span> • 0 Comments</p>
-                    </div>
-                    <div className="text-center mx-4">
-                        <p className="text-green-600 font-bold">DECEMBER 22</p>
-                        <p className="text-gray-600">Posted by <span className="text-black">admin</span> • 0 Comments</p>
-                    </div>
-                </div>
-                <div className="flex justify-center mt-8">
-                    <BlogPost
-                        date="DECEMBER 22"
-                        author="admin"
-                        comments="3 Comments"
-                        imageSrc="https://placehold.co/600x400"
-                        imageAlt="A woman hugging a dog on a couch"
-                        title="A Doggie Kiss A Day Keeps the Doctor Away"
-                        description="This above-average dry product has a dry matter protein reading of 38%, a fat level of 13% and estimated carbohydrates"
-                    />
-                    <BlogPost
-                        date="DECEMBER 22"
-                        author="admin"
-                        comments="0 Comments"
-                        imageSrc="https://placehold.co/600x400"
-                        imageAlt="A puppy running on the ground"
-                        title="A Dog’s Short Term Memory is... Pretty Short"
-                        description="Taste of the Wild The Taste of the Wild product line includes seven dry dog foods, and they’re all praised by dog"
-                    />
-                    <BlogPost
-                        date="DECEMBER 22"
-                        author="admin"
-                        comments="0 Comments"
-                        imageSrc="https://placehold.co/600x400"
-                        imageAlt="A cat lying on a bed"
-                        title="Introducing A New Pet To Your Furry Family"
-                        description="Well, to the contrary of how pets generally feel warmer during the cold season of the year, as opposed to us humans"
-                    />
-                </div>
+        <div className="container mx-auto">
+          <h1 className="text-3xl font-bold text-center text-green-600 my-8">
+            SEE WHAT’S NEW IN OUR BLOG
+          </h1>
+          <div className="flex justify-center">
+            <div className="text-center mx-4">
+              <p className="text-green-600 font-bold">DECEMBER 22</p>
+              <p className="text-gray-600">
+                Posted by <span className="text-black">admin</span> • 3 Comments
+              </p>
             </div>
+            <div className="text-center mx-4">
+              <p className="text-green-600 font-bold">DECEMBER 22</p>
+              <p className="text-gray-600">
+                Posted by <span className="text-black">admin</span> • 0 Comments
+              </p>
+            </div>
+            <div className="text-center mx-4">
+              <p className="text-green-600 font-bold">DECEMBER 22</p>
+              <p className="text-gray-600">
+                Posted by <span className="text-black">admin</span> • 0 Comments
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center mt-8">
+            <BlogPost
+              date="DECEMBER 22"
+              author="admin"
+              comments="3 Comments"
+              imageSrc="https://placehold.co/600x400"
+              imageAlt="A woman hugging a dog on a couch"
+              title="A Doggie Kiss A Day Keeps the Doctor Away"
+              description="This above-average dry product has a dry matter protein reading of 38%, a fat level of 13% and estimated carbohydrates"
+            />
+            <BlogPost
+              date="DECEMBER 22"
+              author="admin"
+              comments="0 Comments"
+              imageSrc="https://placehold.co/600x400"
+              imageAlt="A puppy running on the ground"
+              title="A Dog’s Short Term Memory is... Pretty Short"
+              description="Taste of the Wild The Taste of the Wild product line includes seven dry dog foods, and they’re all praised by dog"
+            />
+            <BlogPost
+              date="DECEMBER 22"
+              author="admin"
+              comments="0 Comments"
+              imageSrc="https://placehold.co/600x400"
+              imageAlt="A cat lying on a bed"
+              title="Introducing A New Pet To Your Furry Family"
+              description="Well, to the contrary of how pets generally feel warmer during the cold season of the year, as opposed to us humans"
+            />
+          </div>
+        </div>
       </div>
+      <>
+        <ImageUpload />
+      </>
     </div>
   );
 }

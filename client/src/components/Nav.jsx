@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import ImageUpload from "./cloud/UploadCloudinary";
 
 function Nav() {
   const user = useSelector((state) => state.user.userInfo);
@@ -64,7 +65,7 @@ function Nav() {
       <div className="flex justify-center items-center my-6">
         <input
           className="p-4 sm:w-[664px] w-[320px] rounded-md outline-none border-none bg-gray-400/30"
-          placeholder="Search ..."
+          placeholder="Tìm kiếm chó cưng thích hợp với bạn ..."
         />
         <div className="w-6 h-6 translate-x-[-36px] cursor-pointer">
           <svg
@@ -91,7 +92,10 @@ function Nav() {
           </svg>
         </div>
       </div>
+      <>
+      </>
     </div>
+    
   );
 }
 
