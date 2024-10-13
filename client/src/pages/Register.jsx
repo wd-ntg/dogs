@@ -4,12 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { auth, googleProvider } from "../utils/firebase-config";
 import { signInWithPopup } from "firebase/auth";
-import { userRegister } from "../redux/action/userActionljs";
+import { userRegister } from "../redux/action/userAction.js";
+import { useToast } from "@/components/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 function Register() {
   const navigator = useNavigate();
   const user = useSelector((state) => state.user);
+  const { toast } = useToast();
+
   const [loadingApi, setLoadingApi] = useState(false);
+  const [nameUser, setNameUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -37,7 +44,6 @@ function Register() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
 
-
       handleRegister(result);
     } catch (error) {
       console.log("Loi khi dang ky bang google: ", error);
@@ -49,9 +55,53 @@ function Register() {
 
     let res = await dispatch(userRegister(data));
 
-    navigator("/");
+    if (res.success == false) {
+      toast({
+        title: "Thống báo",
+        description: res.message,
+        action: (
+          <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+        ),
+      });
+      return;
+    } else {
+      navigator("/");
 
-    setLoadingApi(false);
+      setLoadingApi(false);
+    }
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    if (!nameUser || !password || !confirmPassword) {
+      toast({
+        title: "Thông báo",
+        description: "Vui lòng nhập đầy đủ thông tin!",
+        action: (
+          <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+        ),
+      });
+    } else {
+      if (password !== confirmPassword) {
+        toast({
+          title: "Thống báo",
+          description: "Mật khẩu xác nhận không đúng!",
+          action: (
+            <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+          ),
+        });
+      } else {
+        const data = {
+          uid: Math.random().toString(36).substring(2, 10),
+          name: nameUser,
+          email: "",
+          photoURL: "",
+          password: password,
+        };
+
+        hanldeSignUp(data);
+      }
+    }
   };
 
   return (
@@ -147,13 +197,18 @@ function Register() {
         <div className="w-[100%] flex justify-center items-center flex-col space-y-4">
           <div className="w-[324px] flex ">
             <input
-              label="Email hoặc tên người dùng"
-              placeholder="Nhập Email hoặc tên người dùng"
+              value={nameUser}
+              onChange={(e) => setNameUser(e.target.value)}
+              label="Tên người dùng"
+              placeholder="Nhập tên người dùng"
               className="w-full p-2 outline-none hover:border-[#46b193] border-2 rounded-2xl focus:border-[#46b193]"
             />
           </div>
           <div className=" w-[324px] flex">
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
               label="Mật khẩu"
               placeholder="Nhập mật khẩu"
               className="w-full p-2 outline-none hover:border-[#46b193] border-2 rounded-2xl focus:border-[#46b193]"
@@ -161,6 +216,9 @@ function Register() {
           </div>
           <div className=" w-[324px] flex">
             <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
               label="Xác nhận khẩu"
               placeholder="Xác nhận mật khẩu"
               className="w-full p-2 outline-none hover:border-[#46b193] border-2 rounded-2xl focus:border-[#46b193]"
@@ -181,8 +239,11 @@ function Register() {
             </div>
             <div className="ml-16 translate-x-1">
               <button
-                type="sumbit"
+                type="submit"
                 className="w-[132px] h-[32px] border-2 rounded-2xl hover:border-green-600 bg-[#46b193] text-white"
+                onClick={(e) => {
+                  handleRegisterSubmit(e);
+                }}
               >
                 Đăng ký
               </button>

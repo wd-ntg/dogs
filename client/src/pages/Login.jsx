@@ -1,22 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link } from "react-router-dom";
 
 import { auth, googleProvider } from "../utils/firebase-config";
 import { signInWithPopup } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../redux/action/userAction.js";
+import { useToast } from "@/components/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const [loadingApi, setLoadingApi] = useState(false);
 
-  
+  const [nameUser, setNameUser] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const { toast } = useToast();
+
+  const handleRegister = async (authResult) => {
+    const { user } = authResult;
+
+    setLoadingApi(true);
+
+    const data = {
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    };
+
+    await hanldeSignUp(data);
+
+    setLoadingApi(false);
+    if (user) {
+      return navigator("/");
+    }
+  };
 
   const handleRegisterWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      if (result) {
-        handleRegister(result);
-      }
+
+      handleRegister(result);
     } catch (error) {
       console.log("Loi khi dang ky bang google: ", error);
+    }
+  };
+
+  const hanldeSignUp = async (data) => {
+    setLoadingApi(true);
+
+    let res = await dispatch(userRegister(data));
+
+    console.log("res ", res);
+
+    navigator("/");
+
+    setLoadingApi(false);
+  };
+
+  const handleLogin = async () => {
+    setLoadingApi(true);
+
+    const data = {
+      name: nameUser,
+      password: password,
+    };
+
+    let res = await dispatch(userLogin(data));
+
+    if (res.success == false) {
+      toast({
+        title: "Thông báo",
+        description: res.message,
+        action: (
+          <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+        ),
+      });
+      return;
+    } else {
+      navigator("/");
+
+      setLoadingApi(false);
     }
   };
 
@@ -28,7 +96,10 @@ function Login() {
       <main className="my-6 justify-center items-center w-[100%]">
         <div className="my-2">
           <div className="flex justify-center items-center">
-            <div className="flex w-[432px] space-x-2 items-center justify-center border-2 rounded-2xl hover:border-[#46b193] hover:scale-95 py-1 cursor-pointer">
+            <div
+              onClick={handleRegisterWithGoogle}
+              className="flex w-[432px] space-x-2 items-center justify-center border-2 rounded-2xl hover:border-[#46b193] hover:scale-95 py-1 cursor-pointer"
+            >
               <svg
                 viewBox="-0.5 0 48 48"
                 version="1.1"
@@ -110,15 +181,20 @@ function Login() {
         <div className="w-[100%] flex justify-center items-center flex-col space-y-4">
           <div className="w-[324px] flex ">
             <input
-              label="Email hoặc tên người dùng"
-              placeholder="Nhập Email hoặc tên người dùng"
+              value={nameUser}
+              onChange={(e) => setNameUser(e.target.value)}
+              label="Tên tài khoản"
+              placeholder="Nhập tên tài khoản"
               className="w-full p-2 outline-none hover:border-[#46b193] border-2 rounded-2xl focus:border-[#46b193]"
             />
           </div>
           <div className="relative w-[324px] flex">
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               label="Mật khẩu"
               placeholder="Nhập mật khẩu"
+              type="password"
               className="w-full p-2 outline-none hover:border-[#46b193] border-2 rounded-2xl focus:border-[#46b193]"
             />
           </div>
@@ -139,6 +215,7 @@ function Login() {
               <button
                 type="sumbit"
                 className="w-[132px] h-[32px] border-2 rounded-2xl hover:border-green-600 bg-[#46b193] text-white"
+                onClick={handleLogin}
               >
                 Đăng nhập
               </button>
@@ -153,7 +230,7 @@ function Login() {
           <div className="mb-4">Bạn chưa có tài khoản?</div>
           <Link to="/signup">
             <button className="bg-[#46b193] rounded-2xl px-8 py-1 hover:border-green-600  hover:border-2 text-white">
-              Đăng ký 
+              Đăng ký
             </button>
           </Link>
         </div>

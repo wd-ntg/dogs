@@ -55,7 +55,7 @@ const ImageUpload = () => {
   };
 
   return (
-    <div className="h-screen sm:px-8 md:px-16 sm:py-8">
+    <div className=" sm:px-8 md:px-16 sm:py-8">
       <div className="container mx-auto max-w-screen-lg h-full">
         <header className="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center">
           <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">

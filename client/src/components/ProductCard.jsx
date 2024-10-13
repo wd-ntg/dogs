@@ -1,5 +1,11 @@
+import { useNavigate } from "react-router-dom";
+
+const handleDirect = ( id) => {
+  navigate(`/product/${id}`);
+};
+
 export const ProductCard = ({ product }) => (
-  <div className="border p-4 m-2 w-1/4 hover:border-[#46b193] duration-200">
+  <div onClick={() => handleDirect(product.id)} className="cursor-pointer border p-4 m-2 w-1/4 hover:border-[#46b193] duration-200">
     <div className="relative">
       <span className="absolute top-0 left-0 bg-pink-200 text-pink-600 px-2 py-1 text-xs font-bold">
         SALE!

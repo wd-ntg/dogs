@@ -1,47 +1,206 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ImageUpload from "./cloud/UploadCloudinary";
+import { Link } from "react-router-dom";
+import { removeFromCartAction } from "@/redux/action/cartAction";
+import { useToast } from "@/components/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+
+import {
+  Cloud,
+  CreditCard,
+  Github,
+  Keyboard,
+  LifeBuoy,
+  LogOut,
+  Mail,
+  MessageSquare,
+  Plus,
+  PlusCircle,
+  Settings,
+  User,
+  UserPlus,
+  Users,
+  ShoppingCart,
+} from "lucide-react";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useNavigate } from "react-router-dom";
+import cartService from "@/service/cartService";
 
 function Nav() {
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+
+  const { toast } = useToast();
+
   const user = useSelector((state) => state.user.userInfo);
+  const quantityCart = useSelector((state) => state.cart.quantityCart);
+  const cart_products = useSelector((state) => state.cart.products);
+
+  // const totalPrice = cart_products.reduce(
+  //   (total, product) => total + product.final_price * product.quantity_cart,
+  //   0
+  // );
+
+  const handleRemoveCart = async (data) => {
+    const removeData = {
+      product: data,
+      user: user.uid,
+    };
+    const res = await dispatch(removeFromCartAction(removeData));
+
+    console.log(res);
+
+    toast({
+      title: "Thông báo",
+      description: res.message,
+      action: (
+        <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+      ),
+    });
+  };
 
   return (
     <div className="grid ">
       <div className="flex row-start-1 justify-between mx-4 my-4 items-center sm:mx-24">
-        <div className="w-6 h-6">
-          <svg
-            fill="#000000"
-            viewBox="0 -2 28 28"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              <path d="m5.216 11.998c0 1.44-1.168 2.608-2.608 2.608s-2.608-1.168-2.608-2.608 1.168-2.608 2.608-2.608 2.608 1.168 2.608 2.608z"></path>
-              <path d="m5.216 2.608c0 1.44-1.168 2.608-2.608 2.608s-2.608-1.168-2.608-2.608 1.168-2.608 2.608-2.608 2.608 1.168 2.608 2.608z"></path>
-              <path d="m5.216 21.389c0 1.44-1.168 2.608-2.608 2.608s-2.608-1.168-2.608-2.608 1.168-2.608 2.608-2.608 2.608 1.168 2.608 2.608z"></path>
-              <path d="m9.794 0h15.247c1.441 0 2.61 1.168 2.61 2.61s-1.168 2.61-2.61 2.61h-15.247c-1.441 0-2.61-1.168-2.61-2.61s1.168-2.61 2.61-2.61z"></path>
-              <path d="m9.794 9.39h15.247c1.441 0 2.61 1.168 2.61 2.61s-1.168 2.61-2.61 2.61h-15.247c-1.441 0-2.61-1.168-2.61-2.61s1.168-2.61 2.61-2.61z"></path>
-              <path d="m9.794 18.781h15.247c1.441 0 2.61 1.168 2.61 2.61s-1.168 2.61-2.61 2.61h-15.247c-1.441 0-2.61-1.168-2.61-2.61s1.168-2.61 2.61-2.61z"></path>
-            </g>
-          </svg>
-        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="w-6 h-6 relative">
+              <ShoppingCart className="cursor-pointer" />
+              <div className="absolute top-[-12px] right-[-8px]">
+                {quantityCart}
+              </div>
+            </div>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Giỏ hàng</SheetTitle>
+              <SheetDescription>Tất cả sản phẩm bạn đã lưu</SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              {cart_products?.map((product) => (
+                <li key={product?._id} className="flex py-6">
+                  <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                    <img
+                      alt={product?._id}
+                      src={product?.image}
+                      className="h-full w-full object-cover object-center"
+                    />
+                  </div>
+
+                  <div className="ml-4 flex flex-1 flex-col">
+                    <div>
+                      <div className="flex justify-between text-base font-medium text-gray-900">
+                        <h3>
+                          {product?.name && product?.name.length > 20 ? (
+                            <a href={`/product/${product?._id}`}>
+                              {product?.name.substring(0, 20)}...
+                            </a>
+                          ) : (
+                            <a href={product?._id}>{product?.name}</a>
+                          )}
+                        </h3>
+                        <p className="ml-4">{product?.price}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-1 items-end justify-between text-sm">
+                      <p className="text-gray-500">
+                        Số lượng {product?.quantity_cart}
+                      </p>
+
+                      <div className="flex">
+                        <button
+                          type="button"
+                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                          onClick={() => handleRemoveCart(product)}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Lưu giỏ hàng</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
         <div className="flex space-x-4 justify-between items-center">
           {user ? (
             <>
-              <div className="flex justify-center items-center space-x-2">
-                <div>
-                  <img
-                    className="w-12 h-12 rounded-full object-cover"
-                    src={user.photoURL}
-                  />
-                </div>
-                <div>{user.name}</div>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex justify-center items-center space-x-2">
+                    <div>
+                      {user?.photoURL ? (
+                        <img
+                          className="w-10 h-10 rounded-full object-cover"
+                          src={user.photoURL}
+                        />
+                      ) : (
+                        <img
+                          className="w-10 h-10 rounded-full object-cover"
+                          src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Cài đặt</span>
+                      <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Đăng xuất</span>
+                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </>
           ) : (
             <>
@@ -53,13 +212,29 @@ function Nav() {
         </div>
       </div>
       <div className="flex justify-center items-center  flex-col my-2">
-        <div className="text-2xl font-semibold my-4">NHẬN NUÔI CÚN CƯNG</div>
-        <div className="flex w-[336px] justify-between">
-          <div className="text-sm font-semibold ">NHẬN NUÔI</div>
+        <div className="text-2xl font-semibold my-4 cursor-pointer hover:text-[#46b193] duration-200">
+          <a href="/">NHẬN NUÔI CÚN CƯNG</a>
+        </div>
+        <div className="flex w-[520px] justify-between">
+          <div className="text-sm font-semibold hover:text-[#46b193] duration-200 cursor-pointer">
+            <a href="/dogs"> KHÁM PHÁ</a>
+          </div>
           <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
-          <div className="text-sm font-semibold ">ĐỒ DÙNG THÚ CƯNG</div>
+          <div className="text-sm font-semibold hover:text-[#46b193] duration-200 cursor-pointer">
+            <a href="/dogs">NHẬN NUÔI</a>
+          </div>
           <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
-          <div className="text-sm font-semibold ">LIÊN HỆ</div>
+          <div className="text-sm font-semibold hover:text-[#46b193] duration-200 cursor-pointer">
+            <a href="/dogs">ĐĂNG TIN</a>
+          </div>
+          <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
+          <div className="text-sm font-semibold cursor-pointer hover:text-[#46b193] duration-200">
+            <a href="/products"> ĐỒ DÙNG THÚ CƯNG</a>
+          </div>
+          <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
+          <div className="text-sm font-semibold hover:text-[#46b193] duration-200">
+            LIÊN HỆ
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center my-6">
@@ -92,10 +267,8 @@ function Nav() {
           </svg>
         </div>
       </div>
-      <>
-      </>
+      <></>
     </div>
-    
   );
 }
 
