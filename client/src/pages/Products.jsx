@@ -49,10 +49,9 @@ function Products() {
             <div>HOME</div>
             <div className="w-2 h-2 rounded-full bg-[#46b193]"></div>
             <div>TẤT CẢ SẢN PHẨM</div>
-            <div className="w-2 h-2 rounded-full bg-[#46b193]"></div>
-            <div>{}</div>
+
           </div>
-          <div className="flex justify-between bg-navbar py-4 px-4 my-4">
+          <div className="flex justify-between bg-navbar py-4 px-6 my-4">
             <div className="space-x-4 flex">
               <div className="h-[34px] flex items-center justify-center">
                 Sắp xếp theo

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import process from "process";
 
-const ImageUpload = () => {
+const ImageUpload = ({onUpload}) => {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,8 +29,8 @@ const ImageUpload = () => {
         }
       );
       const res = await response.json();
-      console.log(res)
       setUrl(res.public_id);
+      onUpload(res.url)
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -99,13 +99,9 @@ const ImageUpload = () => {
             <span>Processing...</span>
           </div>
         ) : (
-          url && (
-            <div className="pb-8 pt-4">
-              <img
-                src={url}
-              />
-            </div>
-          )
+          <>
+          <div>Tải lên thành công</div>
+          </>
         )}
       </div>
     </div>

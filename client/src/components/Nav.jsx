@@ -221,11 +221,11 @@ function Nav() {
           </div>
           <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
           <div className="text-sm font-semibold hover:text-[#46b193] duration-200 cursor-pointer">
-            <a href="/dogs">NHẬN NUÔI</a>
+            <a href="/adop">NHẬN NUÔI</a>
           </div>
           <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
           <div className="text-sm font-semibold hover:text-[#46b193] duration-200 cursor-pointer">
-            <a href="/dogs">ĐĂNG TIN</a>
+            <a href="/post">ĐĂNG TIN</a>
           </div>
           <div className="w-[2px] h-6 bg-black/20 transform rotate-12"></div>
           <div className="text-sm font-semibold cursor-pointer hover:text-[#46b193] duration-200">

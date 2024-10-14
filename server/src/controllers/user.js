@@ -1,4 +1,5 @@
 import { connectToDB, getDB } from "../configDB/mongoDB.js";
+import { ObjectId } from "mongodb";
 
 let db;
 
@@ -120,7 +121,101 @@ let userLogin = async (req, res) => {
   }
 };
 
+let userPostDog = async (req, res) => {
+  try {
+    const data = req.body;
+    // const post = await db.collection("post").findOne({ user: data.user });
+    // if (post) {
+    //   await db
+    //     .collection("post")
+    //     .updateOne({ user: data.user }, { $push: { post_dogs: data.post } });
+
+    //   return res.status(200).json({
+    //     success: true,
+    //     message: "Đã thêm thành công bài post!",
+    //   });
+    // } else {
+    //   await db.collection("post").insertOne({
+    //     post_dogs: [data.post],
+    //     user: data.user,
+    //     phoneNumber: data.phoneNumber,
+    //     address: data.address,
+    //   });
+    //   return res.status(200).json({
+    //     success: true,
+    //     message: "Đã thêm thành công bài post!",
+    //   });
+    // }
+
+    await db.collection("post").insertOne({
+      post_dogs: data.post,
+      user: data.user,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+    });
+    return res.status(200).json({
+      success: true,
+      message: "Đã thêm thành công bài post!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Đã có lỗi xảy ra ở server!",
+      data: error,
+    });
+  }
+};
+
+const getDogAdop = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    console.log(id);
+
+    const data = await db.collection("post").findOne({ _id: new ObjectId(id) });
+
+    if (data) {
+      return res.status(200).json({
+        success: true,
+        message: "Lấy thông tin nhận nuôi thành công!",
+        data: data,
+      });
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: "Thông tin nhận nuôi không tồn tại!",
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Đã xảy ra lỗi ở server!",
+      data: error,
+    });
+  }
+};
+
+let getAllAdop = async (req, res) => {
+  try {
+    const data = await db.collection("post").find().toArray();
+    return res.status(200).json({
+      success: true,
+      message: "Lấy thông tin thành công!",
+      data: data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Đã xảy ra lỗi ở server!",
+      data: error,
+    });
+  }
+};
+
 export default {
   userRegister,
   userLogin,
+  userPostDog,
+  getDogAdop,
+  getAllAdop
 };

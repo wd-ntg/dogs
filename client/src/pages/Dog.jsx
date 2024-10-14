@@ -26,7 +26,7 @@ function Dog() {
     <div>
       <Nav />
       <div className=" sm:mx-24 sm:my-16 mx-4 my-6">
-        <div className="px-6 flex items-center space-x-2">
+        <div className="px-6 flex items-center space-x-2 my-8">
           <div>HOME</div>
           <div className="w-2 h-2 rounded-full bg-[#46b193]"></div>
           <div>CÚN CƯNG</div>
