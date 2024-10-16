@@ -78,6 +78,10 @@ export const cartSlice = createSlice({
     },
 
     actionWithCartFailed: () => {},
+    logoutCart : (state) => {
+      state.quantityCart = 0;
+      state.products = [];
+    }
   },
 });
 
@@ -89,7 +93,8 @@ export const {
   actionUnTicketBuy,
   actionTicketBuyAll,
   actionUnTicketBuyAll,
-  removeFromCartWithoutQuantity
+  removeFromCartWithoutQuantity,
+  logoutCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

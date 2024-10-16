@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "../components/Nav";
 
 import big_img1 from "../assets/big_img1.jpg";
@@ -18,32 +18,35 @@ import ImageUpload from "@/components/cloud/UploadCloudinary";
 
 const products = [
   {
-    id: 1,
-    image: "https://placehold.co/300x200",
-    alt: "Leopet Htbt03 Dog Bed Different Sizes And Colours",
-    title: "Leopet Htbt03 Dog Bed Different Sizes And Colours",
-    price: "$150.00",
-    oldPrice: "$152.00",
+    id: "670ced269e9d13e94920d7c6",
+    image:
+      "https://www.petmart.vn/wp-content/uploads/2013/03/binh-uong-nuoc-cho-cho-meo-gai-chuong-bobo-300x300.jpg",
+    alt: "Bình nước gài chuồng cho chó BoBo",
+    title: "Bình nước gài chuồng cho chó BoBo",
+    price: "80000VND",
+    oldPrice: "120000VND",
     rating: 5,
-    buttonText: "Add to cart",
+    buttonText: "Select options",
   },
   {
-    id: 2,
-    image: "https://placehold.co/300x200",
-    alt: "Andrew James 4-Day Meal Automatic Pet Feeder",
-    title: "Andrew James 4-Day Meal Automatic Pet Feeder",
-    price: "$10.00",
-    oldPrice: "$12.00",
+    id: "670ced269e9d13e94920d7ce",
+    image:
+      "https://www.petmart.vn/wp-content/uploads/2020/10/balo-dung-cho-meo-dang-hop-mat-luoi-loffe-pet-space-backpack123-300x300.jpg",
+    alt: "Balo đựng chó dáng hộp mặt lưới LOFFE Pet Space Backpack",
+    title: "Balo đựng chó dáng hộp mặt lưới LOFFE Pet Space Backpack",
+    price: "550000VND",
+    oldPrice: "750000VND",
     rating: 4,
     buttonText: "Select options",
   },
   {
-    id: 3,
-    image: "https://placehold.co/300x200",
-    alt: "Easipet Fabric Pet Carrier",
-    title: "Easipet Fabric Pet Carrier",
-    price: "$30.00",
-    oldPrice: "$35.00",
+    id: "670ced269e9d13e94920d7d2",
+    image:
+      "https://www.petmart.vn/wp-content/uploads/2019/05/vong-co-cho-meo-kem-day-dat-co-be-hand-in-hand-300x300.jpg",
+    alt: "Dây xích chó kèm dây dắt cỡ bé HAND IN HAND",
+    title: "Dây xích chó kèm dây dắt cỡ bé HAND IN HAND",
+    price: "90000VND",
+    oldPrice: "120000VND",
     rating: 4,
     buttonText: "Select options",
   },
@@ -117,11 +120,11 @@ function Home() {
               alt="A small dog with a red bow tie"
               className="w-full h-[300px] object-cover"
             />
-            <div className="bg-teal-500 text-center py-4  hover:bg-gray_bg">
+            <div className="bg-teal-500 text-center py-4  hover:bg-gray_bg duration-200">
               <h2 className="text-white text-xl font-bold">DOGS</h2>
               <div className="mt-2">
                 <span className="text-white border sm:text-base text-xs border-white py-1 px-3 inline-block">
-                  19 products
+                  M
                 </span>
               </div>
             </div>
@@ -132,11 +135,11 @@ function Home() {
               alt="A grey cat"
               className="w-full h-[300px] object-cover"
             />
-            <div className="bg-yellow-500 text-center py-4 hover:bg-gray_bg">
-              <h2 className="text-white text-xl font-bold">CATS</h2>
+            <div className="bg-yellow-500 text-center py-4 hover:bg-gray_bg duration-200">
+              <h2 className="text-white text-xl font-bold">DOGS</h2>
               <div className="mt-2">
                 <span className="text-white border sm:text-base text-xs border-white py-1 px-3 inline-block">
-                  19 products
+                  L
                 </span>
               </div>
             </div>
@@ -147,11 +150,11 @@ function Home() {
               alt="A colorful parrot"
               className="w-full h-[300px] object-cover"
             />
-            <div className="bg-red-500 text-center py-4 hover:bg-gray_bg">
-              <h2 className="text-white text-xl font-bold">BIRDS</h2>
+            <div className="bg-red-500 text-center py-4 hover:bg-gray_bg duration-200">
+              <h2 className="text-white text-xl font-bold">DOGS</h2>
               <div className="mt-2">
                 <span className="text-white border sm:text-base text-xs border-white py-1 px-3 inline-block">
-                  14 products
+                  XL
                 </span>
               </div>
             </div>
@@ -162,11 +165,11 @@ function Home() {
               alt="A small rabbit"
               className="w-full h-[300px] object-cover"
             />
-            <div className="bg-blue-500 text-center py-4 hover:bg-gray_bg">
-              <h2 className="text-white text-xl font-bold">SMALL PETS</h2>
+            <div className="bg-blue-500 text-center py-4 hover:bg-gray_bg duration-200">
+              <h2 className="text-white text-xl font-bold">DOGS</h2>
               <div className="mt-2">
                 <span className="text-white border sm:text-base text-xs border-white py-1 px-3 inline-block">
-                  6 products
+                  XXL
                 </span>
               </div>
             </div>
@@ -199,40 +202,8 @@ function Home() {
               </p>
             </div>
           </div>
-          <div className="flex justify-center mt-8">
-            <BlogPost
-              date="DECEMBER 22"
-              author="admin"
-              comments="3 Comments"
-              imageSrc="https://placehold.co/600x400"
-              imageAlt="A woman hugging a dog on a couch"
-              title="A Doggie Kiss A Day Keeps the Doctor Away"
-              description="This above-average dry product has a dry matter protein reading of 38%, a fat level of 13% and estimated carbohydrates"
-            />
-            <BlogPost
-              date="DECEMBER 22"
-              author="admin"
-              comments="0 Comments"
-              imageSrc="https://placehold.co/600x400"
-              imageAlt="A puppy running on the ground"
-              title="A Dog’s Short Term Memory is... Pretty Short"
-              description="Taste of the Wild The Taste of the Wild product line includes seven dry dog foods, and they’re all praised by dog"
-            />
-            <BlogPost
-              date="DECEMBER 22"
-              author="admin"
-              comments="0 Comments"
-              imageSrc="https://placehold.co/600x400"
-              imageAlt="A cat lying on a bed"
-              title="Introducing A New Pet To Your Furry Family"
-              description="Well, to the contrary of how pets generally feel warmer during the cold season of the year, as opposed to us humans"
-            />
-          </div>
         </div>
       </div>
-      <>
-        <ImageUpload />
-      </>
     </div>
   );
 }

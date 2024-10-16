@@ -3,7 +3,10 @@ import {
   userLoginFailed,
   userLoginSuscess,
   userRegisterFailed,
+  userLogout,
 } from "../slice/userSlice";
+
+import { logoutCart } from "../slice/cartSlice";
 
 export const userRegister = (data) => {
   return async (dispactch) => {
@@ -58,6 +61,21 @@ export const userLogin = (data) => {
       }
     } catch (error) {
       dispactch(userLoginFailed());
+      return {
+        success: false,
+        errCode: 500,
+        message: "Đã xảy ra lỗi!",
+      };
+    }
+  };
+};
+
+export const userLogoutAction = () => {
+  return async (dispactch) => {
+    try {
+      dispactch(userLogout());
+      dispactch(logoutCart());
+    } catch (error) {
       return {
         success: false,
         errCode: 500,

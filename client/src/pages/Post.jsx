@@ -415,7 +415,7 @@ function Post() {
               onClick={handlePostDog}
               className="px-2 py-2 bg-blue-400 text-white rounded-sm hover:bg-blue-500 duration-200"
             >
-              POST
+              Tải thông tin lên
             </button>
           </div>
         </div>

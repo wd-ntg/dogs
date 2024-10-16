@@ -29,15 +29,15 @@ function Dog() {
         <div className="px-6 flex items-center space-x-2 my-8">
           <div>HOME</div>
           <div className="w-2 h-2 rounded-full bg-[#46b193]"></div>
-          <div>CÚN CƯNG</div>
+          <div>KHÁM PHÁ</div>
           <div className="w-2 h-2 rounded-full bg-[#46b193]"></div>
-          <div>{}</div>
+          <div>CÁC LOÀI CHÓ</div>
         </div>
         <div className="relative px-6">
           <img
             src={dog.image}
             alt="A happy dog running on the grass"
-            className="w-full h-auto"
+            className=" h-auto object-contain"
           />
           <div className="absolute top-1/4 left-1/4 bg-green-600 bg-opacity-90 p-8">
             <h1 className="text-white text-sm uppercase">Thông Tin</h1>

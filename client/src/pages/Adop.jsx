@@ -2,6 +2,7 @@ import Nav from "@/components/Nav";
 import React, { useState, useEffect } from "react";
 import userService from "@/service/userService";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "flowbite-react";
 
 function Adop() {
   const [adop, setAdop] = useState(null);
@@ -24,7 +25,7 @@ function Adop() {
   }, []);
 
   if (!adop || adop.length === 0) {
-    return <div>Loading...</div>;
+    return <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center"><Spinner size="xl"/></div>;
   }
 
   return (

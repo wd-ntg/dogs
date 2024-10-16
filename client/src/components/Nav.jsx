@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ImageUpload from "./cloud/UploadCloudinary";
 import { Link } from "react-router-dom";
 import { removeFromCartAction } from "@/redux/action/cartAction";
+import { userLogoutAction } from "@/redux/action/userAction";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
@@ -38,6 +39,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -84,6 +95,52 @@ function Nav() {
         <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
       ),
     });
+  };
+
+  const handleLogout = () => {
+    dispatch(userLogoutAction());
+    navigator("/login");
+  };
+
+  // Search
+
+  const [search, setSearch] = useState("");
+
+  const [dataResult, setDataResult] = useState(null);
+
+  const handleSearch = async () => {
+    try {
+      // Đảm bảo `search` đã được trim để không có khoảng trắng dư thừa
+      const queryParam = search.trim();
+
+      // Sử dụng query string để gửi thông tin tìm kiếm lên API
+      const response = await fetch(
+        `http://localhost:8080/search/${encodeURIComponent(queryParam)}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Parse dữ liệu trả về thành JSON
+      const result = await response.json();
+      console.log(result);
+      setDataResult(result);
+
+      console.log(dataResult);
+
+      // Xử lý kết quả trả về từ API tại đây nếu cần thiết
+    } catch (error) {
+      console.error("Error searching dog: ", error);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   return (
@@ -194,7 +251,7 @@ function Nav() {
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
 
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Đăng xuất</span>
                     <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
@@ -237,37 +294,83 @@ function Nav() {
           </div>
         </div>
       </div>
-      <div className="flex justify-center items-center my-6">
+      <div className="flex justify-center items-center mt-6 mb-2">
         <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="p-4 sm:w-[664px] w-[320px] rounded-md outline-none border-none bg-gray-400/30"
           placeholder="Tìm kiếm chó cưng thích hợp với bạn ..."
         />
-        <div className="w-6 h-6 translate-x-[-36px] cursor-pointer">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              {" "}
-              <path
-                d="M20 10.9696L11.9628 18.5497C10.9782 19.4783 9.64274 20 8.25028 20C6.85782 20 5.52239 19.4783 4.53777 18.5497C3.55315 17.6211 3 16.3616 3 15.0483C3 13.7351 3.55315 12.4756 4.53777 11.547M14.429 6.88674L7.00403 13.8812C6.67583 14.1907 6.49144 14.6106 6.49144 15.0483C6.49144 15.4861 6.67583 15.9059 7.00403 16.2154C7.33224 16.525 7.77738 16.6989 8.24154 16.6989C8.70569 16.6989 9.15083 16.525 9.47904 16.2154L13.502 12.4254M8.55638 7.75692L12.575 3.96687C13.2314 3.34779 14.1217 3 15.05 3C15.9783 3 16.8686 3.34779 17.525 3.96687C18.1814 4.58595 18.5502 5.4256 18.5502 6.30111C18.5502 7.17662 18.1814 8.01628 17.525 8.63535L16.5 9.601"
-                stroke="#000000"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>{" "}
-            </g>
-          </svg>
+        <div className="">
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="w-6 h-6 translate-x-[-36px] cursor-pointer">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M20 10.9696L11.9628 18.5497C10.9782 19.4783 9.64274 20 8.25028 20C6.85782 20 5.52239 19.4783 4.53777 18.5497C3.55315 17.6211 3 16.3616 3 15.0483C3 13.7351 3.55315 12.4756 4.53777 11.547M14.429 6.88674L7.00403 13.8812C6.67583 14.1907 6.49144 14.6106 6.49144 15.0483C6.49144 15.4861 6.67583 15.9059 7.00403 16.2154C7.33224 16.525 7.77738 16.6989 8.24154 16.6989C8.70569 16.6989 9.15083 16.525 9.47904 16.2154L13.502 12.4254M8.55638 7.75692L12.575 3.96687C13.2314 3.34779 14.1217 3 15.05 3C15.9783 3 16.8686 3.34779 17.525 3.96687C18.1814 4.58595 18.5502 5.4256 18.5502 6.30111C18.5502 7.17662 18.1814 8.01628 17.525 8.63535L16.5 9.601"
+                      stroke="#000000"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>{" "}
+                  </g>
+                </svg>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[1200px] h-[600px] scroll-smooth overflow-y-scroll">
+              <DialogHeader>
+                <DialogTitle>Tải ảnh lên để phân tích</DialogTitle>
+                <DialogDescription>
+                  Quá trình phân tích có thể mất vài giây vui lòng đợi để có kết
+                  quả tốt nhất
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <ImageUpload />
+              </div>
+              <DialogFooter>
+                <Button type="submit">Đến trang kết quả</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
-      <></>
+      <div className="bg-blue-300 backdrop-blur-md mx-[430px] translate-x-[-12px] rounded-xl absolute top-[37%] z-50">
+        {dataResult?.map((item, index) => {
+          return (
+            <div className="bg-white/20 backdrop-blur-xl flex justify-center items-center w-full rounded-md ">
+              <div key={index} className="flex w-full  items-center px-2 ">
+                <div className="flex space-x-4 my-2 backdrop-blur-md px-2 py-2 cursor-pointer hover:bg-white/10">
+                  <div>
+                    <img className="w-16 h-16 rounded-full" src={item.image} />
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold text-xl">
+                      {item.name}
+                    </div>
+                    <div className="text-white/60 text-sm">
+                      {item.des.slice(0, 86)}...
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
