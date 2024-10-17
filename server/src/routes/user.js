@@ -11,6 +11,7 @@ const initRouterBuyer = (app) => {
   router.post("/post-dog", user.userPostDog);
   router.post("/all-adop", user.getAllAdop);
   router.post("/dog-adop/:id", user.getDogAdop);
+  router.post("/search-dog/:label", user.getSearchDog);
 
   app.use("/api/user", router);
 };

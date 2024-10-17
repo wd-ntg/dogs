@@ -29,10 +29,10 @@ const ImageUpload = ({ onUpload }) => {
       );
       const res = await response.json();
       // setUrl(res.public_id);
-      // onUpload(res.url);
       console.log(res);
       await detectImage(res?.secure_url);
-
+      
+      onUpload(res.url);
       setLoading(false);
     } catch (error) {
       setLoading(false);

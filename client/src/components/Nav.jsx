@@ -353,7 +353,7 @@ function Nav() {
           return (
             <div className="bg-white/20 backdrop-blur-xl flex justify-center items-center w-full rounded-md ">
               <div key={index} className="flex w-full  items-center px-2 ">
-                <div className="flex space-x-4 my-2 backdrop-blur-md px-2 py-2 cursor-pointer hover:bg-white/10">
+                <div onClick={() => navigator(`/search-dog/${item.name}`)} className="flex space-x-4 my-2 backdrop-blur-md px-2 py-2 cursor-pointer hover:bg-white/10">
                   <div>
                     <img className="w-16 h-16 rounded-full" src={item.image} />
                   </div>

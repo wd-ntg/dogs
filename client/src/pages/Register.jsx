@@ -7,6 +7,9 @@ import { signInWithPopup } from "firebase/auth";
 import { userRegister } from "../redux/action/userAction.js";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import Lottie from "lottie-react";
+
+import dog3 from "../assets/dog3.json";
 
 function Register() {
   const navigator = useNavigate();
@@ -107,7 +110,9 @@ function Register() {
   return (
     <div className="text-center">
       <header className="w-[100%] h-[84px] flex justify-center items-center border-b-2">
-        <img className="h-[64px] " src=""></img>
+        <div className="">
+          <Lottie className="w-[98px]" animationData={dog3} loop={true} />
+        </div>
       </header>
       <main className="my-6 justify-center items-center w-[100%]">
         <div className="my-2">

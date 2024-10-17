@@ -16,6 +16,8 @@ function Adop() {
     if (res.data) {
       setAdop(res.data);
 
+      console.log(adop[6])
+
       setArryAdop(res.data.slice(11));
     }
   };
@@ -87,7 +89,7 @@ function Adop() {
             </div>
             <div
               className="row-span-3 col-start-3 row-start-2"
-              onClick={() => navigate(`/dog-adop/${adop[3]._id}`)}
+              onClick={() => navigate(`/dog-adop/${adop[4]._id}`)}
             >
               <img
                 src={adop[4]?.post_dogs.imageUrl}

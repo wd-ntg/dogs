@@ -212,10 +212,43 @@ let getAllAdop = async (req, res) => {
   }
 };
 
+let getSearchDog = async (req, res) => {
+  try {
+
+
+    const label = req.params.label;
+
+
+    const data = await db.collection("search").find({ name: label }).toArray();
+
+
+    if (data) {
+      return res.status(200).json({
+        success: true,
+        message: "Tìm kiếm cún cưng thành công!",
+        data: data,
+      });
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: "Tìm kiếm không tồn tại!",
+      });
+    }
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Đã xảy ra lỗi ở server!",
+      data: error,
+    });
+  }
+}
+
 export default {
   userRegister,
   userLogin,
   userPostDog,
   getDogAdop,
-  getAllAdop
+  getAllAdop,
+  getSearchDog
 };
