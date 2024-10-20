@@ -10,6 +10,7 @@ import { userLogin } from "../redux/action/userAction.js";
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useNavigate } from "react-router-dom";
+import { userRegister } from "../redux/action/userAction.js";
 
 import dog3 from "../assets/dog3.json";
 

@@ -237,7 +237,7 @@ function Nav() {
                   <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigator("/profile")}>
                       <User className="mr-2 h-4 w-4" />
                       <span>Profile</span>
                       <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>

@@ -12,6 +12,8 @@ import Post from "./pages/Post";
 import DogAdop from "./pages/DogAdop";
 import Adop from "./pages/Adop";
 import SearchDog from "./pages/SearchDog";
+import Profile from "./pages/Profile";
+import Order from "./pages/Order";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route extract path="/signup" element={<Register />} />
             <Route extract path="/products" element={<Products />} />
             <Route extract path="/dogs" element={<Dogs />} />
+            <Route extract path="/profile" element={<Profile />} />
+            <Route extract path="/order" element={<Order />} />
             <Route extract path="/dog-adop/:id" element={<DogAdop />} />
             <Route extract path="/search-dog/:label" element={<SearchDog />} />
 

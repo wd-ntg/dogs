@@ -55,7 +55,50 @@ let getAllProducts = async (req, res) => {
   }
 };
 
+let buyProduct = async (req, res) => {
+  try {
+    const { _id, quantity, uid, color, size } = req.body;
+
+    console.log(req.body);
+
+    const userBuyer = await db.collection("buy").findOne({ user: uid });
+
+    console.log(userBuyer)
+
+    if (userBuyer) {
+      await db
+        .collection("buy")
+        .updateOne(
+          { user: uid },
+          { $push: { products: { id: _id, quantity: quantity, color: color, size: size } } }
+        );
+      await db.collection("product").updateOne(
+        { _id: new ObjectId(_id) },
+        { $inc: { quantity: -quantity } }
+      )
+    } else {
+      await db.collection("buy").insertOne({
+        user: uid,
+        products: [{ id: _id, quantity: quantity, color: color, size: size }],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Mua sản phẩm thành công!",
+    });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      message: "có lỗi xảy ra ở server!",
+      data: error,
+    });
+  }
+};
+
 export default {
   getProducts,
   getAllProducts,
+  buyProduct,
 };

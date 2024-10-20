@@ -25,4 +25,16 @@ const getSearchDog = async (label) => {
     return await fetchApiPostRequest(`/user/search-dog/${label}`);
 }
 
-export default { userRegister, userLogin, userPostDog, getDogAdop, getAllAdop, getSearchDog }
+const getProfile = async (data) => {
+    return await fetchApiPostRequest("/user/profile", data);
+}
+
+const updateProfile = async (data) => {
+    return await fetchApiPostRequest("/user/update-profile", data);
+}
+
+const getAllOrder = async (data) => {
+    return await fetchApiPostRequest("/user/all-order", data);
+}
+
+export default { userRegister, userLogin, userPostDog, getDogAdop, getAllAdop, getSearchDog, getProfile, updateProfile, getAllOrder };

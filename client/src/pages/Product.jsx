@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProduct } from "@/redux/action/productAction";
 
+import productService from "@/service/productService";
+
 import { useToast } from "@/components/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
@@ -68,14 +70,15 @@ function Product() {
       selectedColor: selectedColor,
       selectedSize: selectedSize,
       quantity_cart: quantity_cart,
-    }
+    };
 
+    const data = { product: dataProduct, user: user.uid };
 
-    const data = {product: dataProduct, user: user.uid}
-
-    console.log(data)
+    console.log(data);
 
     const res = await dispatch(addToCartAction(data));
+
+    console.log(res.data)
 
     if (res.success === true) {
       toast({
@@ -86,6 +89,38 @@ function Product() {
         ),
       });
     }
+  };
+
+  const handleBuyProduct = async () => {
+
+    if (selectedColor === null || selectedSize === null) {
+      toast({
+        title: "Thông báo",
+        description: "Vui lòng chọn loại hàng mà bạn muốn mua!",
+        action: (
+          <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+        ),
+      });
+      return;
+    }
+
+    const quantity_cart = Number(selectedQuantity);
+    const data = {
+      _id: product._id,
+      quantity: quantity_cart,
+      uid: user.uid,
+      color: selectedColor,
+      size: selectedSize,
+    };
+    const res = await productService.buyProduct(data);
+
+    toast({
+      title: "Thêm báo",
+      description: res.message,
+      action: (
+        <ToastAction altText="Goto schedule to undo">Quay lại</ToastAction>
+      ),
+    });
   };
 
   useEffect(() => {
@@ -233,6 +268,12 @@ function Product() {
                     className="bg-green-500 text-white p-2 flex items-center"
                   >
                     <i className="fas fa-cart-plus mr-2"></i> Add to cart
+                  </button>
+                  <button
+                    onClick={handleBuyProduct}
+                    className="bg-blue-500 text-white p-2 flex items-center mx-4"
+                  >
+                    <i className="fas fa-cart-plus mr-2"></i> Mua hàng
                   </button>
                 </div>
                 <div className="flex space-x-4 mb-4">

@@ -7,4 +7,12 @@ const getAllProducts = async (id) => {
   return await fetchApiPostRequest(`/product/all`);
 };
 
-export default { getProduct, getAllProducts };
+const buyProduct = async (data) => {
+  return await fetchApiPostRequest(`/product/buy`, data);
+};
+
+export default {
+  getProduct,
+  getAllProducts,
+  buyProduct,
+};
